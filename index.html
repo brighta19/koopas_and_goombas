@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Mario Sprites</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="container">
+        <canvas id="cvs" width="500px" height="375px"></canvas>
+    </div>
+    <div class="container">
+        <button onclick="addEntity('Goomba')">Add Goomba</button>
+        <button onclick="addEntity('Green Koopa')">Add Green Koopa</button>
+        <button onclick="addEntity('Red Koopa')">Add Red Koopa</button>
+        <button onclick="addEntity('Blue Koopa')">Add Blue Koopa</button>
+        <button onclick="turnEntities()">Entity Turn</button>
+        <button onclick="danceEntities()">Entity Dance</button>
+        <button onclick="toggleOverworldMusic(this)">Play Overworld Music</button>
+        <button onclick="toggleAthleticMusic(this)">Play Athletic Music</button>
+        <button onclick="toggleUndergroundMusic(this)">Play Underground Music</button>
+    </div>
+    
+    <script src="scripts/initial.js"></script>
+    
+    <script src="scripts/constructors/PulseAnimation.js"></script>
+    <script src="scripts/constructors/SpriteAnimation.js"></script>
+    
+    <script src="scripts/constructors/AthleticMusic.js"></script>
+    <script src="scripts/constructors/OverworldMusic.js"></script>
+    <script src="scripts/constructors/UndergroundMusic.js"></script>
+    
+    <script src="scripts/constructors/Platform.js"></script>
+    
+    <script src="scripts/constructors/Entity/Entity.js"></script>
+    <script src="scripts/constructors/Entity/Goomba.js"></script>
+    <script src="scripts/constructors/Entity/Koopa/Koopa.js"></script>
+    <script src="scripts/constructors/Entity/Koopa/RedKoopa.js"></script>
+    <script src="scripts/constructors/Entity/Koopa/GreenKoopa.js"></script>
+    <script src="scripts/constructors/Entity/Koopa/BlueKoopa.js"></script>
+    
+    <script src="scripts/script.js"></script>
+    
+</body>
+</html>

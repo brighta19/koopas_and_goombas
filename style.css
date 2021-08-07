@@ -1,0 +1,30 @@
+body {
+    margin: 0;
+}
+.container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+#cvs {
+    margin: 5px;
+    border: 1px solid black;
+}
+button {
+    background: linear-gradient(45deg, #0DD, #AFF);
+    border: 1px solid #0AA;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 10px 20px;
+    font-family: Arial, sans-serif;
+}
+button:hover, button:focus {
+    background: linear-gradient(45deg, #0FF, #CFF);
+}
+button:active {
+    background: linear-gradient(45deg, #0BB, #ADD);
+}
+button:focus {
+    outline: none;
+}
