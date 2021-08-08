@@ -17,14 +17,21 @@ function OverworldMusic() {
         this.audio.volume = volume || 1;
         this.audio.currentTime = (this.bpm * 0);
         this.audio.play();
+
+
+        this.tid = setTimeout(() => {
+            this.sid = setInterval(() => {
+                this.audio.currentTime = this.bpm * 4;
+            }, (this.bpm * 136) * 1000);
+        }, (this.bpm * 4) * 1000);
     };
     this.stop = function () {
         this.audio.pause();
+
+        clearTimeout(this.tid);
+        clearInterval(this.sid);
     };
     this.playBah = function () {
-        if (time() > this.bpm * 140)
-            time(this.bpm * 4);
-        
         for (let i = 0; i < bah.length; i++) {
             if (time() > this.bpm * bah[i] && time() < this.bpm * (bah[i] + 0.2))
                 return true;
