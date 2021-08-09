@@ -1,5 +1,3 @@
-/* global ctx WIDTH HEIGHT numOfImages numOfImagesLoaded numOfAudio numOfAudioLoaded imagesCompleted audioCompleted PulseAnimation OverworldMusic AthleticMusic UndergroundMusic Platform Goomba RedKoopa GreenKoopa BlueKoopa */
-
 ctx.imageSmoothingEnabled = false;
 
 var music = {

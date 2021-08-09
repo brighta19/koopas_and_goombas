@@ -1,5 +1,3 @@
-/* global Image */
-
 var cvs = document.getElementById("cvs");
 var ctx = cvs.getContext("2d");
 var WIDTH = cvs.width = window.innerWidth - 12;

@@ -1,11 +1,12 @@
-/* global ctx */
+class Platform {
+	constructor(x, y, width, height) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+	}
 
-function Platform(x, y, w, h) {
-    this.x = x;
-    this.y = y;
-    this.width = w;
-    this.height = h;
-    this.collision = function(entity) {
+	collision(entity) {
     	var vX = (entity.x + ((entity.width * entity.scale) / 2)) - (this.x + (this.width / 2)),
     		vY = (entity.y + ((entity.height * entity.scale) / 2)) - (this.y + (this.height / 2)),
     		// add the half widths and half heights of the objects
@@ -33,9 +34,10 @@ function Platform(x, y, w, h) {
     				entity.x -= oX;
     		}
     	}
-    };
-    this.render = function () {
+	}
+
+	render() {
         ctx.fillStyle = "black";
         ctx.fillRect(this.x, this.y, this.width, this.height);
-    };
+	}
 }
