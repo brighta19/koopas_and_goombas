@@ -1,24 +1,25 @@
-/* global ctx images SpriteAnimation Entity */
-
 function Goomba(x, y) {
     Entity.call(this, x, y, 17, 19, "Goomba");
     this.vx = (Math.random() < 0.5) ? -1 : 1;
     this.scale = 2;
     this.action = "walking";
     this.ticksPerFrame = 4;
-    this.saWalking = new SpriteAnimation(images.goombaWalking, 8, this.width, this.height, this.ticksPerFrame);
-    this.saTurning = new SpriteAnimation(images.goombaTurning, 3, this.width, this.height, this.ticksPerFrame/2);
+
+    this.sprites = {
+        walking: new Sprite(images.goombaWalking, 8, this.width, this.height, this.ticksPerFrame),
+        turning: new Sprite(images.goombaTurning, 3, this.width, this.height, this.ticksPerFrame/2)
+    };
 }
 Goomba.prototype = Object.create(Entity.prototype);
 Goomba.prototype.constructor = Goomba;
 
 Goomba.prototype.walk = function () {
     this.action = "walking";
-    this.saWalking.startFromBeginning();
+    this.sprites.walking.startFromBeginning();
 };
 Goomba.prototype.turn = function () {
     this.action = "turning";
-    this.saTurning.startFromBeginning();
+    this.sprites.turning.startFromBeginning();
 };
 Goomba.prototype.dance = function () {
     if (this.onGround) {
@@ -29,14 +30,14 @@ Goomba.prototype.dance = function () {
 };
 Goomba.prototype.update = function () {
     if (this.action == "walking") {
-        this.saWalking.nextFrame();
-        if (this.saWalking.isDone())
-            this.saWalking.startFromBeginning();
+        this.sprites.walking.nextFrame();
+        if (this.sprites.walking.isDone())
+            this.sprites.walking.startFromBeginning();
         this.x += this.vx;
     }
     else if (this.action == "turning") {
-        this.saTurning.nextFrame();
-        if (this.saTurning.isDone()) {
+        this.sprites.turning.nextFrame();
+        if (this.sprites.turning.isDone()) {
             this.walk();
             this.vx *= -1;
             this.x += this.vx;
@@ -50,12 +51,22 @@ Goomba.prototype.render = function () {
     ctx.translate(this.x + (this.width * this.scale) / 2, this.y + (this.height * this.scale));
     ctx.scale((this.vx > 0) ? -1 : 1, 1);
     
-    if (this.action == "walking")
-        this.saWalking.drawFrame(-(this.width * this.scale) / 2, -(this.height * this.scale),
-            this.width * this.scale, this.height * this.scale);
-    else if (this.action == "turning")
-        this.saTurning.drawFrame(-(this.width * this.scale) / 2, -(this.height * this.scale),
-            this.width * this.scale, this.height * this.scale);
+    var frame;
+    if (this.action === "walking") {
+        frame = this.sprites.walking.getCurrentFrame();
+    }
+    else if (this.action === "turning") {
+        frame = this.sprites.turning.getCurrentFrame();
+    }
+    
+    if (frame) {
+        ctx.drawImage(frame.image, frame.x, frame.y, frame.width, frame.height,
+            -(this.width * this.scale) / 2,
+            -(this.height * this.scale),
+            this.width * this.scale,
+            this.height * this.scale
+        );
+    }
     
     ctx.restore();
 };
