@@ -2,7 +2,11 @@ class BeatPulser {
     constructor() {
         this.pulses = [];
         this.canCreatePulse = true;
-        this.timeMeasure = 0; // Referring to measures in music
+        this.beatTime = 0;
+        this.timeStopped = Date.now();
+
+        this.doingIdleAnimation = false;
+        this.idleAnimationStartTime = 0;
 
         this.running = false;
     }
@@ -13,11 +17,13 @@ class BeatPulser {
         this.music.onplay = () => {
             this.running = true;
             this.canCreatePulse = true;
-            this.timeMeasure = 0;
+            this.beatTime = 0;
+            this.doingIdleAnimation = false;
         };
 
         this.music.onstop = () => {
             this.running = false;
+            this.timeStopped = Date.now();
         };
 
         this.calculatePulseSpeed();
@@ -31,14 +37,26 @@ class BeatPulser {
 
     update() {
         if (this.running) {
-            this.timeMeasure = (this.music.getTime() % this.music.secondsPerBeat) / this.music.secondsPerBeat;
+            this.beatTime = (this.music.getTime() % this.music.secondsPerBeat) / this.music.secondsPerBeat;
 
-            if (this.canCreatePulse && this.timeMeasure < 0.5) {
+            if (this.canCreatePulse && this.beatTime < 0.5) {
                 this.pulses.push(new Pulse(this.pulseSpeed));
                 this.canCreatePulse = false;
             }
-            else if (!this.canCreatePulse && this.timeMeasure >= 0.5) {
+            else if (!this.canCreatePulse && this.beatTime >= 0.5) {
                 this.canCreatePulse = true;
+            }
+        }
+        else {
+            let now = Date.now();
+            if (!this.doingIdleAnimation && now - this.timeStopped >= BeatPulser.IDLE_ANIMATION_START_DELAY) {
+                this.doingIdleAnimation = true;
+                this.idleAnimationStartTime = now;
+                this.timeStopped = now;
+            }
+            else if (this.doingIdleAnimation && now - this.idleAnimationStartTime >= BeatPulser.IDLE_ANIMATION_DURATION) {
+                this.doingIdleAnimation = false;
+                this.timeStopped = now;
             }
         }
 
@@ -59,10 +77,14 @@ class BeatPulser {
 
         ctx.save();
 
-        let y = Math.sin(this.timeMeasure * Math.PI) * (HEIGHT / 8);
+        let y = Math.sin(this.beatTime * Math.PI) * (HEIGHT / 8);
+        let radius = BeatPulser.RADIUS;
+        if (this.doingIdleAnimation) {
+            radius += (1 - (Math.cos((Date.now() - this.idleAnimationStartTime) / BeatPulser.IDLE_ANIMATION_DURATION * 2 * Math.PI) + 1) / 2) * BeatPulser.SCALE_AMOUNT;
+        }
 
         ctx.beginPath();
-        ctx.arc(WIDTH / 2, HEIGHT / 4 - y, BeatPulser.RADIUS, 0, Math.PI * 2);
+        ctx.arc(WIDTH / 2, HEIGHT / 4 - y, radius, 0, Math.PI * 2);
         ctx.closePath();
         ctx.globalAlpha = 1;
         ctx.fillStyle = BeatPulser.COLOR;
@@ -73,3 +95,6 @@ class BeatPulser {
 }
 BeatPulser.RADIUS = 20;
 BeatPulser.COLOR = "#66B";
+BeatPulser.IDLE_ANIMATION_START_DELAY = 5000;
+BeatPulser.IDLE_ANIMATION_DURATION = 2000;
+BeatPulser.SCALE_AMOUNT = 10;
