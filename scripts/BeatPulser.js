@@ -2,6 +2,7 @@ class BeatPulser {
     constructor() {
         this.pulses = [];
         this.canCreatePulse = true;
+        this.timeMeasure = 0; // Referring to measures in music
 
         this.running = false;
     }
@@ -12,6 +13,7 @@ class BeatPulser {
         this.music.onplay = () => {
             this.running = true;
             this.canCreatePulse = true;
+            this.timeMeasure = 0;
         };
 
         this.music.onstop = () => {
@@ -29,16 +31,14 @@ class BeatPulser {
 
     update() {
         if (this.running) {
-            if (this.canCreatePulse) {
-                if ((this.music.getTime() % this.music.calculatedBPM) / 0.6 <= BeatPulser.SENSITIVITY) {
-                    this.pulses.push(new Pulse(this.pulseSpeed));
-                    this.canCreatePulse = false;
-                }
+            this.timeMeasure = (this.music.getTime() % this.music.secondsPerBeat) / this.music.secondsPerBeat;
+
+            if (this.canCreatePulse && this.timeMeasure < 0.5) {
+                this.pulses.push(new Pulse(this.pulseSpeed));
+                this.canCreatePulse = false;
             }
-            else {
-                if ((this.music.getTime() % this.music.calculatedBPM) / 0.6 > BeatPulser.SENSITIVITY) {
-                    this.canCreatePulse = true;
-                }
+            else if (!this.canCreatePulse && this.timeMeasure >= 0.5) {
+                this.canCreatePulse = true;
             }
         }
 
@@ -53,14 +53,16 @@ class BeatPulser {
     }
 
     render() {
-        ctx.save();
-
         for (let i = 0; i < this.pulses.length; i++) {
             this.pulses[i].render();
         }
 
+        ctx.save();
+
+        let y = Math.sin(this.timeMeasure * Math.PI) * (HEIGHT / 8);
+
         ctx.beginPath();
-        ctx.arc(WIDTH / 2, HEIGHT / 4, BeatPulser.RADIUS, 0, Math.PI * 2);
+        ctx.arc(WIDTH / 2, HEIGHT / 4 - y, BeatPulser.RADIUS, 0, Math.PI * 2);
         ctx.closePath();
         ctx.globalAlpha = 1;
         ctx.fillStyle = BeatPulser.COLOR;
@@ -69,6 +71,5 @@ class BeatPulser {
         ctx.restore();
     }
 }
-BeatPulser.SENSITIVITY = 0.05;
 BeatPulser.RADIUS = 20;
 BeatPulser.COLOR = "#66B";
