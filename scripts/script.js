@@ -16,8 +16,8 @@ var music = {
 };
 var currentMusic;
 var musicPlaying = false;
+var beatPulser = new BeatPulser();
 var platform = new Platform(0, HEIGHT - 40, WIDTH, 40);
-var pulses = [];
 var entities = [];
 
 function addEntity(type) {
@@ -52,6 +52,7 @@ function toggleOverworldMusic(e) {
     }
     else {
         currentMusic = music.overworld;
+        beatPulser.setMusic(currentMusic);
         currentMusic.play();
         musicPlaying = true;
         e.innerHTML = "Stop Overworld Music";
@@ -65,6 +66,7 @@ function toggleAthleticMusic(e) {
     }
     else {
         currentMusic = music.athletic;
+        beatPulser.setMusic(currentMusic);
         currentMusic.play();
         musicPlaying = true;
         e.innerHTML = "Stop Athletic Music";
@@ -78,6 +80,7 @@ function toggleUndergroundMusic(e) {
     }
     else {
         currentMusic = music.underground;
+        beatPulser.setMusic(currentMusic);
         currentMusic.play();
         musicPlaying = true;
         e.innerHTML = "Stop Underground Music";
@@ -86,43 +89,34 @@ function toggleUndergroundMusic(e) {
 
 
 function update() {
-    if (musicPlaying && currentMusic.getTime() % currentMusic.beatsPerMinute < 0.1 && pulses.length == 0)
-        pulses.push(new PulseAnimation(currentMusic.beatsPerMinute));
-        
-    for (let p = pulses.length - 1; p >= 0; p--) {
-        pulses[p].update();
-        if (pulses[p].delete)
-            pulses.splice(p, 1);
-    }
-    
+    beatPulser.update();
+
     for (let e = 0; e < entities.length; e++) {
         let entity = entities[e];
         entity.update();
-        
+
         if ((entity.x < 0 ||
         entity.x + (entity.width * entity.scale) > WIDTH) &&
         entity.action == "walking") {
             entity.turn();
         }
-        
+
         if (musicPlaying && currentMusic.isBahTime()) {
             entity.dance();
         }
-        
+
         platform.collision(entity);
     }
 }
 
 function render() {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
-    
-    for (let p = pulses.length - 1; p >= 0; p--) {
-        pulses[p].render();
-    }
-    
+
+    beatPulser.render();
+
     for (let e = 0; e < entities.length; e++)
         entities[e].render();
-        
+
     platform.render();
 }
 
@@ -133,7 +127,7 @@ setInterval(function () {
     }
     else {
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
-        
+
         ctx.fillStyle = "#8F8";
         ctx.fillRect(0, 0, ((numOfImagesLoaded + numOfAudioLoaded) / (numOfImages + numOfAudio)) * WIDTH, 5);
         ctx.fillText("Loading ...", 10, 20);

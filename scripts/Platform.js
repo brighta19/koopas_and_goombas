@@ -12,7 +12,7 @@ class Platform {
     		// add the half widths and half heights of the objects
     		hWidths = ((entity.width * entity.scale) / 2) + (this.width / 2),
     		hHeights = ((entity.height * entity.scale) / 2) + (this.height / 2);
-    
+
     	// if the x and y vector are less than the half width or half height, then we must be inside the object, causing a collision
     	if (Math.abs(vX) < hWidths && Math.abs(vY) < hHeights) {
     		// figures out on which side we are colliding (top, bottom, left, or right)
