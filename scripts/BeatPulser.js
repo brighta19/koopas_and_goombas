@@ -24,8 +24,8 @@ class BeatPulser {
     }
 
     calculatePulseSpeed() {
-        var fpms = 60 / 1000; // 60 frames per 1000 ms (1s)
-        var bpms = this.music.beatsPerMinute / 60000; // beats per 60000 ms (60s, 1m)
+        let fpms = 60 / 1000; // 60 frames per 1000 ms (1s)
+        let bpms = this.music.beatsPerMinute / 60000; // beats per 60000 ms (60s, 1m)
         this.pulseSpeed = (bpms/fpms);
     }
 

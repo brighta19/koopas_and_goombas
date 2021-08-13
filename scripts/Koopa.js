@@ -54,8 +54,8 @@ class Koopa extends Entity {
         ctx.save();
         ctx.translate(this.x + (this.width * this.scale) / 2, this.y + (this.height * this.scale));
         ctx.scale((this.vx > 0) ? -1 : 1, 1);
-        
-        var frame;
+
+        let frame;
         if (this.action === "walking") {
             frame = this.sprites.walking.getCurrentFrame();
         }
@@ -65,7 +65,7 @@ class Koopa extends Entity {
         else if (this.action === "dancing") {
             frame = this.sprites.dancing.getCurrentFrame();
         }
-        
+
         if (frame) {
             ctx.drawImage(frame.image, frame.x, frame.y, frame.width, frame.height,
                 -(this.width * this.scale) / 2,

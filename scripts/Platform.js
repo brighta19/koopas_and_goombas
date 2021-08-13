@@ -7,7 +7,7 @@ class Platform {
 	}
 
 	collision(entity) {
-    	var vX = (entity.x + ((entity.width * entity.scale) / 2)) - (this.x + (this.width / 2)),
+    	let vX = (entity.x + ((entity.width * entity.scale) / 2)) - (this.x + (this.width / 2)),
     		vY = (entity.y + ((entity.height * entity.scale) / 2)) - (this.y + (this.height / 2)),
     		// add the half widths and half heights of the objects
     		hWidths = ((entity.width * entity.scale) / 2) + (this.width / 2),
@@ -16,7 +16,7 @@ class Platform {
     	// if the x and y vector are less than the half width or half height, then we must be inside the object, causing a collision
     	if (Math.abs(vX) < hWidths && Math.abs(vY) < hHeights) {
     		// figures out on which side we are colliding (top, bottom, left, or right)
-    		var oX = hWidths - Math.abs(vX),
+    		let oX = hWidths - Math.abs(vX),
     			oY = hHeights - Math.abs(vY);
     		if (oX >= oY) {
     			if (vY > 0) {// entity colliding from bottom

@@ -1,6 +1,6 @@
 ctx.imageSmoothingEnabled = false;
 
-var music = {
+const music = {
     overworld: new Music(audio.overworldMusic, 100, 4, 136, [
         3.5, 10.25, 11, 18.25, 19, 58.25, 59, 98.25,
         99, 105, 106, 106.75, 113, 114, 114.75, 121,
@@ -14,11 +14,11 @@ var music = {
         15, 23, 31, 39, 47, 63, 71, 79, 87
     ])
 };
-var currentMusic;
-var musicPlaying = false;
-var beatPulser = new BeatPulser();
-var platform = new Platform(0, HEIGHT - 40, WIDTH, 40);
-var entities = [];
+const beatPulser = new BeatPulser();
+const platform = new Platform(0, HEIGHT - 40, WIDTH, 40);
+const entities = [];
+let currentMusic;
+let musicPlaying = false;
 
 function addEntity(type) {
     switch (type) {

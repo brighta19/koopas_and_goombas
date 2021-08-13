@@ -5,7 +5,7 @@ class Goomba extends Entity {
         this.vx = (Math.random() < 0.5) ? -1 : 1;
         this.scale = 2;
         this.action = "walking";
-    
+
         this.sprites = {
             walking: new Sprite(images.goombaWalking, 8, this.width, this.height, 4),
             turning: new Sprite(images.goombaTurning, 3, this.width, this.height, 2)
@@ -53,15 +53,15 @@ class Goomba extends Entity {
         ctx.save();
         ctx.translate(this.x + (this.width * this.scale) / 2, this.y + (this.height * this.scale));
         ctx.scale((this.vx > 0) ? -1 : 1, 1);
-        
-        var frame;
+
+        let frame;
         if (this.action === "walking") {
             frame = this.sprites.walking.getCurrentFrame();
         }
         else if (this.action === "turning") {
             frame = this.sprites.turning.getCurrentFrame();
         }
-        
+
         if (frame) {
             ctx.drawImage(frame.image, frame.x, frame.y, frame.width, frame.height,
                 -(this.width * this.scale) / 2,
@@ -70,7 +70,7 @@ class Goomba extends Entity {
                 this.height * this.scale
             );
         }
-        
+
         ctx.restore();
     }
 }

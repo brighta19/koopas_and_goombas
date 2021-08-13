@@ -1,12 +1,12 @@
-var cvs = document.getElementById("cvs");
-var ctx = cvs.getContext("2d");
-var WIDTH = cvs.width = window.innerWidth - 12;
-var HEIGHT = cvs.height;
+const cvs = document.getElementById("cvs");
+const ctx = cvs.getContext("2d");
+const WIDTH = cvs.width = window.innerWidth - 12;
+const HEIGHT = cvs.height;
 
-var numOfImages = 11;
-var numOfImagesLoaded = 0;
-var imagesCompleted = false;
-var images = {
+const numOfImages = 11;
+let numOfImagesLoaded = 0;
+let imagesCompleted = false;
+let images = {
     redKoopaWalking: "sprites/koopa/red/walking.png",
     redKoopaTurning: "sprites/koopa/red/turning.png",
     redKoopaDancing: "sprites/koopa/red/dancing.png",
@@ -20,10 +20,10 @@ var images = {
     goombaTurning: "sprites/goomba/turning.png",
 };
 
-var numOfAudio = 3;
-var numOfAudioLoaded = 0;
-var audioCompleted = false;
-var audio = {
+const numOfAudio = 3;
+let numOfAudioLoaded = 0;
+let audioCompleted = false;
+let audio = {
     overworldMusic: "audio/overworld.mp3",
     athleticMusic: "audio/athletic.mp3",
     undergroundMusic: "audio/underground.mp3",
@@ -47,4 +47,4 @@ for (let i in audio) {
     audio[i] = aud;
 }
 
-var GRAVITY = 0.3;
+const GRAVITY = 0.3;
