@@ -23,16 +23,16 @@ let musicPlaying = false;
 function addEntity(type) {
     switch (type) {
         case "Goomba":
-            entities.push(new Goomba(WIDTH / 2, HEIGHT /2));
+            entities.push(new Goomba(Math.floor(HALF_WIDTH), Math.floor(HALF_HEIGHT)));
             break;
         case "Green Koopa":
-            entities.push(new GreenKoopa(WIDTH / 2, HEIGHT /2));
+            entities.push(new GreenKoopa(Math.floor(HALF_WIDTH), Math.floor(HALF_HEIGHT)));
             break;
         case "Red Koopa":
-            entities.push(new RedKoopa(WIDTH / 2, HEIGHT /2));
+            entities.push(new RedKoopa(Math.floor(HALF_WIDTH), Math.floor(HALF_HEIGHT)));
             break;
         case "Blue Koopa":
-            entities.push(new BlueKoopa(WIDTH / 2, HEIGHT /2));
+            entities.push(new BlueKoopa(Math.floor(HALF_WIDTH), Math.floor(HALF_HEIGHT)));
             break;
     }
 }

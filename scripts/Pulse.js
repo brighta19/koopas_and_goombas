@@ -24,14 +24,14 @@ class Pulse {
         ctx.save();
 
         ctx.beginPath();
-        ctx.arc(WIDTH / 2, HEIGHT / 4, radius, 0, Math.PI * 2);
+        ctx.arc(HALF_WIDTH, HEIGHT / 4, radius, 0, Math.PI * 2);
         ctx.closePath();
         ctx.globalAlpha = opacity;
         ctx.fillStyle = Pulse.COLOR;
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(WIDTH / 2, HEIGHT / 4, BeatPulser.RADIUS, 0, Math.PI * 2);
+        ctx.arc(HALF_WIDTH, HEIGHT / 4, BeatPulser.RADIUS, 0, Math.PI * 2);
         ctx.closePath();
         ctx.globalAlpha = 1;
         ctx.fillStyle = "#FFF";
@@ -42,4 +42,4 @@ class Pulse {
 }
 Pulse.COLOR = "#AAF";
 Pulse.MIN_RADIUS = 20;
-Pulse.MAX_RADIUS = WIDTH / 2;
+Pulse.MAX_RADIUS = HALF_WIDTH;

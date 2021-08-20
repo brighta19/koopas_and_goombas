@@ -2,6 +2,8 @@ const cvs = document.getElementById("cvs");
 const ctx = cvs.getContext("2d");
 const WIDTH = cvs.width = window.innerWidth - 12;
 const HEIGHT = cvs.height;
+const HALF_WIDTH = WIDTH / 2;
+const HALF_HEIGHT = HEIGHT / 2;
 
 const numOfImages = 11;
 let numOfImagesLoaded = 0;

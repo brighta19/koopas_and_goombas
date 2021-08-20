@@ -83,7 +83,7 @@ class BeatPulser {
         }
 
         ctx.beginPath();
-        ctx.arc(WIDTH / 2, HEIGHT / 4 - y, radius, 0, Math.PI * 2);
+        ctx.arc(HALF_WIDTH, HEIGHT / 4 - y, radius, 0, Math.PI * 2);
         ctx.closePath();
         ctx.globalAlpha = 1;
         ctx.fillStyle = BeatPulser.COLOR;
