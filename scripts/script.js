@@ -89,47 +89,50 @@ function toggleUndergroundMusic(e) {
 
 
 function update() {
-    beatPulser.update();
+    requestAnimationFrame(update);
 
-    for (let e = 0; e < entities.length; e++) {
-        let entity = entities[e];
-        entity.update();
+    if (!loading) {
+        beatPulser.update();
 
-        if ((entity.x < 0 ||
-        entity.x + (entity.width * entity.scale) > WIDTH) &&
-        entity.action == "walking") {
-            entity.turn();
+        for (let e = 0; e < entities.length; e++) {
+            let entity = entities[e];
+            entity.update();
+    
+            if ((entity.x < 0 ||
+            entity.x + (entity.width * entity.scale) > WIDTH) &&
+            entity.action == "walking") {
+                entity.turn();
+            }
+    
+            if (musicPlaying && currentMusic.isBahTime()) {
+                entity.dance();
+            }
+    
+            platform.collision(entity);
         }
-
-        if (musicPlaying && currentMusic.isBahTime()) {
-            entity.dance();
-        }
-
-        platform.collision(entity);
     }
+
+    render();
 }
 
 function render() {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
-
-    beatPulser.render();
-
-    for (let e = 0; e < entities.length; e++)
-        entities[e].render();
-
-    platform.render();
-}
-
-setInterval(function () {
-    if (imagesCompleted && audioCompleted) {
-        update();
-        render();
-    }
-    else {
+    
+    if (loading) {
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
         ctx.fillStyle = "#8F8";
         ctx.fillRect(0, 0, ((numOfImagesLoaded + numOfAudioLoaded) / (numOfImages + numOfAudio)) * WIDTH, 5);
         ctx.fillText("Loading ...", 10, 20);
     }
-}, 1000 / 60); // 60 fps
+    else {
+        beatPulser.render();
+
+        for (let e = 0; e < entities.length; e++)
+            entities[e].render();
+
+        platform.render();
+    }
+}
+
+update();

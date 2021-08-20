@@ -33,18 +33,27 @@ for (let i in images) {
     let img = new Image();
     img.src = images[i];
     img.onload = function () {
-        if (++numOfImagesLoaded == numOfImages)
+        if (++numOfImagesLoaded === numOfImages) {
             imagesCompleted = true;
+            _onLoadFinish();
+        }
     };
     images[i] = img;
 }
 for (let i in audio) {
     let aud = new Audio(audio[i]);
     aud.oncanplay = function () {
-        if (++numOfAudioLoaded == numOfAudio)
+        if (++numOfAudioLoaded === numOfAudio) {
             audioCompleted = true;
+            _onLoadFinish();
+        }
     };
     audio[i] = aud;
 }
 
+function _onLoadFinish() {
+    loading = !(imagesCompleted && audioCompleted);
+}
+
+let loading = true;
 const GRAVITY = 0.3;

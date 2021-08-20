@@ -30,9 +30,8 @@ class BeatPulser {
     }
 
     calculatePulseSpeed() {
-        let fpms = 60 / 1000; // 60 frames per 1000 ms (1s)
         let bpms = this.music.beatsPerMinute / 60000; // beats per 60000 ms (60s, 1m)
-        this.pulseSpeed = (bpms/fpms);
+        this.pulseSpeed = bpms / BeatPulser.FPMS;
     }
 
     update() {
@@ -93,6 +92,7 @@ class BeatPulser {
         ctx.restore();
     }
 }
+BeatPulser.FPMS = 60 / 1000; // 60 frames per 1000 ms (1s)
 BeatPulser.RADIUS = 20;
 BeatPulser.COLOR = "#66B";
 BeatPulser.IDLE_ANIMATION_START_DELAY = 5000;
