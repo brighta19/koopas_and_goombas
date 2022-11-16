@@ -59,3 +59,4 @@ function _onLoadFinish() {
 
 let loading = true;
 const GRAVITY = 0.3;
+const BAH_GRACE_PERIOD = 200;
