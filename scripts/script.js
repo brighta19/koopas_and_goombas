@@ -91,25 +91,29 @@ function toggleUndergroundMusic(e) {
 function update() {
     requestAnimationFrame(update);
 
-    if (!loading) {
-        beatPulser.update();
+    if (loading)
+        return;
 
-        for (let e = 0; e < entities.length; e++) {
-            let entity = entities[e];
-            entity.update();
-    
-            if ((entity.x < 0 ||
-            entity.x + (entity.width * entity.scale) > WIDTH) &&
-            entity.action == "walking") {
-                entity.turn();
-            }
-    
-            if (musicPlaying && currentMusic.isBahTime()) {
-                entity.dance();
-            }
-    
-            platform.collision(entity);
+    if (musicPlaying)
+        currentMusic.update();
+
+    beatPulser.update();
+
+    for (let e = 0; e < entities.length; e++) {
+        let entity = entities[e];
+        entity.update();
+
+        if ((entity.x < 0 ||
+        entity.x + (entity.width * entity.scale) > WIDTH) &&
+        entity.action == "walking") {
+            entity.turn();
         }
+
+        if (musicPlaying && currentMusic.isBahTime()) {
+            entity.dance();
+        }
+
+        platform.collision(entity);
     }
 
     render();
@@ -117,22 +121,24 @@ function update() {
 
 function render() {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
-    
+
     if (loading) {
-        ctx.clearRect(0, 0, WIDTH, HEIGHT);
-
-        ctx.fillStyle = "#8F8";
-        ctx.fillRect(0, 0, ((numOfImagesLoaded + numOfAudioLoaded) / (numOfImages + numOfAudio)) * WIDTH, 5);
-        ctx.fillText("Loading ...", 10, 20);
+        renderLoading();
+        return;
     }
-    else {
-        beatPulser.render();
 
-        for (let e = 0; e < entities.length; e++)
-            entities[e].render();
+    beatPulser.render();
 
-        platform.render();
-    }
+    for (let e = 0; e < entities.length; e++)
+        entities[e].render();
+
+    platform.render();
+}
+
+function renderLoading() {
+    ctx.fillStyle = "#8F8";
+    ctx.fillRect(0, 0, ((numOfImagesLoaded + numOfAudioLoaded) / (numOfImages + numOfAudio)) * WIDTH, 5);
+    ctx.fillText("Loading ...", 10, 20);
 }
 
 update();

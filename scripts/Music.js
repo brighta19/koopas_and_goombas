@@ -10,6 +10,9 @@ class Music {
 
         this.onplay = new Function();
         this.onstop = new Function();
+
+        this.timeMusicStarted = 0;
+        this.timeMusicWillEnd = 0;
     }
 
     getTime() {
@@ -30,15 +33,25 @@ class Music {
 
     play() {
         this.audio.volume = this.volume;
+        this.timeMusicStarted = Date.now();
+        this.timeMusicWillEnd = this.timeMusicStarted +
+            (this.secondsPerBeat * this.startLoopBeat * 1000) +
+            (this.secondsPerBeat * this.endLoopBeat * 1000);
         this.audio.play();
 
-        this.timeoutId = setTimeout(() => {
-            this.intervalId = setInterval(() => {
-                this.audio.currentTime = this.secondsPerBeat * this.startLoopBeat;
-            }, (this.secondsPerBeat * this.endLoopBeat) * 1000);
-        }, (this.secondsPerBeat * this.startLoopBeat) * 1000);
-
         this.onplay();
+    }
+
+    update() {
+        if (Date.now() > this.timeMusicWillEnd)
+            this.loop();
+    }
+
+    loop() {
+        this.audio.currentTime = this.secondsPerBeat * this.startLoopBeat;
+        this.timeMusicStarted = Date.now();
+        this.timeMusicWillEnd = this.timeMusicStarted +
+            (this.secondsPerBeat * this.endLoopBeat * 1000);
     }
 
     stop() {
